@@ -42,13 +42,7 @@ class Lag_q(object):
     def update_lag(self, df):
         # move values in lag_q to df.lag_n values
         # expects df to be a single row
-
-        # #make sure its a series
-        # if (len(df) > 1):
-        #     raise  ValueError("df is %s"%str(len(df)))
-#         print(df.loc[:,'lag_1'])
-#         print(self.lag_q[0][0])
-        
+       
         try:
             for i in range(len(self.lag_q)):
                 df.loc[f'lag_{i+1}'] = self.lag_q[i][0]
@@ -84,7 +78,7 @@ class track_preds(object):
     
     def run(self):
 #         delete_lag_nas_in_mapper(self.mapper)
-#         self.mapper.df_out = True
+        self.mapper.df_out = True
 
         for index in range(len(self.df)-2):             
 
@@ -118,58 +112,3 @@ class track_preds(object):
 
             # add that prediction to lags
             self.lag_q.add_pred(np.exp(prediction))
-
-######################################################
-class dummymodel(object):
-    pred = 0
-    def predict_dl(self, dl):
-        dummymodel.pred +=1
-        return dummymodel.pred
-# class track_preds1(object):
-#     '''
-#     pass in a dataframe, this class will loop through
-#     call model.predict on each row
-#     and then update the lags for the next row accordingly
-
-#     the dataframe lags should not be scaled initially
-#     '''
-
-#     def __init__(self, df,mapper, model,cat_vars, num_lags):
-#         '''
-
-#         :param df: single or multiple row dataframe
-#         :param model: model that runs predictions
-#         :param cat_vars: list of categorical variables in df
-#         '''
-#         self.df = df
-#         self.mapper = mapper
-#         self.model = model
-#         self.cat_vars = cat_vars
-#         self.lag_q = Lag_q(num_lags)
-#         self.preds = []
-#         self.num_lags = num_lags
-    
-#     def run(self):
-#         for index in range(len(self.df)-2):
-            
-#             one_row = ColumnarDataset.from_data_frame(self.df.iloc[index:(index+2),:],cat_flds=self.cat_vars)
-#             one_row_test = DataLoader(one_row)
-#             prediction = self.model.predict_dl(one_row_test)
-#             self.preds.append(prediction[0][0])
-    
-# class m_lag(object):
-#     def __init__(self, df,mapper, model,cat_vars, num_lags):
-#         self.df = df
-#         self.mapper = mapper
-#         self.model = model
-#         self.cat_vars = cat_vars
-# #         self.lag_q = Lag_q(num_lags)
-#         self.preds = []
-#         self.num_lags = num_lags
-#     def run1(self):
-#         for index in range(len(self.df)-2):
-#             one_row = ColumnarDataset.from_data_frame(self.df.iloc[index:(index+2),:],cat_flds=self.cat_vars)
-#             one_row_test = DataLoader(one_row)
-#             prediction = self.model.predict_dl(one_row_test)
-#             self.preds.append(prediction[0][0])
-    
